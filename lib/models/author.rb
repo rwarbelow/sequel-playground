@@ -27,5 +27,14 @@ module SequelPlayground
 		def self.all
 			table.map { |row| Author.new(row) }
 		end
+
+		def articles
+			DB.from(:articles).where(author_id: self.id).map { |row| Article.new(row) }
+		end
+
+		def self.find(id)
+			row = table.where(id: id).first
+			Author.new(row)
+		end
 	end
 end

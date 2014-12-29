@@ -1,0 +1,6 @@
+<h3><%= author.first_name %> <%= author.last_name %></h3>
+<% author.articles.each do |article| %>
+	<hr>
+	<p><b><%= article.title %></b></p>
+	<p><%= article.body %></p>
+<% end %>

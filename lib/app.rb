@@ -1,20 +1,19 @@
-require 'models/article'
-require 'models/author'
+require 'models/base'
 
 module SequelPlayground
-	DB = Sequel.postgres "sequel-playground"
+	DB = Sequel.postgres("sequel-playground")
 
 	class Server < Sinatra::Base
 		get '/' do
-			erb :index, locals: { authors: Author.all }
+			erb :index
 		end
 
 		get '/authors' do
-			erb :authors_index
+			erb :authors_index, locals: { authors: Author.all }
 		end
 
 		get '/articles' do
-			erb :articles_index
+			erb :articles_index, locals: { articles: Article.all }
 		end
 
 		get '/authors/new' do
@@ -26,20 +25,21 @@ module SequelPlayground
 		end
 
 		post '/articles' do
-
+			Article.create(params[:article])
+			redirect '/articles'
 		end
 
 		post '/authors' do
 			Author.create(params[:author])
-			redirect '/'
+			redirect '/authors'
 		end
 
-		get '/articles/:id' do
-
+		get '/articles/:id' do |id|
+			erb :authors_show, locals: { author: Article.find(id) }
 		end
 
-		get '/authors/:id' do
-
+		get '/authors/:id' do |id|
+			erb :authors_show, locals: { author: Author.find(id) }
 		end
 	end
 
